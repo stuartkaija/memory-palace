@@ -1,0 +1,18 @@
+.card {
+    max-width: 12rem;
+    max-height: 12rem;
+
+    &__front {
+        object-fit: cover;
+        object-position: center;
+        width: 12rem;
+        height: 12rem;
+    }
+
+    &__back {
+        object-fit: cover;
+        object-position: center;
+        width: 12rem;
+        height: 12rem;
+    }
+}
