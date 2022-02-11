@@ -1,12 +1,21 @@
 .card {
     max-width: 12rem;
     max-height: 12rem;
+    position: relative;
 
     &__front {
         object-fit: cover;
         object-position: center;
         width: 12rem;
         height: 12rem;
+        position: absolute;
+        transform: rotateY(90deg); // this effectively hides the front of the card
+        transition: all ease-in 0.2s;
+
+        &--flipped {
+            transform: rotateY(0deg);
+            transition-delay: 0.2s;
+        }
     }
 
     &__back {
@@ -14,5 +23,12 @@
         object-position: center;
         width: 12rem;
         height: 12rem;
+        transition: all ease-in 0.2s;
+        transition-delay: 0.5s;
+
+        &--flipped {
+            transform: rotateY(90deg);
+            transition-delay: 0s;
+        }
     }
 }
