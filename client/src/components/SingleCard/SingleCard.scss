@@ -1,7 +1,13 @@
+@use "../../styles/partials/mixins" as *;
+
 .card {
     max-width: 12rem;
     max-height: 12rem;
     position: relative;
+
+    @include tablet {
+
+    }
 
     &__front {
         object-fit: cover;

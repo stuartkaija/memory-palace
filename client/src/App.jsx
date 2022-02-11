@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react';
-import './global.scss';
+import './App.scss';
 import uniqid from 'uniqid';
+import Header from './components/Header/Header';
 import Cards from './components/Cards/Cards';
+
 
 // hardcoded image data
 import dog1 from '../src/assets/images/dog1.jpeg';
@@ -84,10 +86,8 @@ function App() {
     }, [])
 
     return (
-        <main>
-            <h1>Memory Palace</h1>
-            <button onClick={shuffleCards}>New Game</button>
-            <h4>Turns: {turns}</h4>
+        <main className='App'>
+            <Header turns={turns} shuffleCards={shuffleCards} />
             <Cards
               cards={cards}
               handleChoice={handleChoice}

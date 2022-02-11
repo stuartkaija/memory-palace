@@ -1,0 +1,28 @@
+@use "./variables" as *;
+@use "./typography" as *;
+
+@mixin tablet {
+    @media screen and (min-width: $tablet-breakpoint) {
+        @content;
+    }
+}
+
+@mixin desktop {
+    @media screen and (min-width: $desktop-breakpoint) {
+        @content
+    }
+}
+
+@mixin button {
+    padding: 0.5rem 3rem;
+    border-radius: 5rem;
+    border: none;
+    font-family: 'Magilio';
+    font-size: 1rem;
+    font-weight: bold;
+
+    &:hover {
+        background-color: rgb(71, 71, 71);
+        color: white;
+    }
+}
