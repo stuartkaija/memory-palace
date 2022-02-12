@@ -13,6 +13,8 @@
         position: absolute;
         transform: rotateY(90deg); // this effectively hides the front of the card
         transition: all ease-in 0.2s;
+        border-radius: 0.25rem;
+        box-shadow: 0.1rem 0.4rem 0.5rem .1rem lightgrey;
 
         &--flipped {
             transform: rotateY(0deg);
@@ -27,6 +29,8 @@
         height: 100%;
         transition: all ease-in 0.2s;
         transition-delay: 0.5s;
+        border-radius: 0.25rem;
+        box-shadow: 0.1rem 0.4rem 0.5rem .1rem lightgrey;
 
         &--flipped {
             transform: rotateY(90deg);

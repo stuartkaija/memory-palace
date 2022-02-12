@@ -58,7 +58,7 @@ function App() {
       if (choiceOne && choiceTwo) {
         setDisabled(true);
         if (choiceOne.src === choiceTwo.src) {
-          setPoints(points + 1);
+          setPoints(prevPoints => prevPoints + 1)
           setCards(prevCards => {
             return prevCards.map(card => {
               if (card.src === choiceOne.src) {
