@@ -20,16 +20,16 @@
     font-family: 'Magilio';
     font-size: 1rem;
     font-weight: bold;
-    transition: all ease 0.5s;
+    transition: all ease 0.25s;
 
     @include tablet {
         padding: 0.5rem 3rem;
-        transition: all ease 0.5s;
+        transition: all ease 0.25s;
     }
 
     &:hover {
         background-color: rgb(71, 71, 71);
-        transition: all ease 0.5s;
+        transition: all ease 0.25s;
         color: rgb(255,255,255);
     }
 }

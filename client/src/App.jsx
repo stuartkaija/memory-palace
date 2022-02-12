@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import './App.scss';
 import uniqid from 'uniqid';
+import Modal from 'react-modal';
 import Header from './components/Header/Header';
 import Cards from './components/Cards/Cards';
-
 
 // hardcoded image data
 import dog1 from '../src/assets/images/dog1.jpeg';
@@ -12,7 +12,6 @@ import dog3 from '../src/assets/images/dog3.jpeg';
 import dog4 from '../src/assets/images/dog4.jpeg';
 import dog5 from '../src/assets/images/dog5.jpeg';
 import dog6 from '../src/assets/images/dog6.jpeg';
-
 
 const cardImages = [
   {"src": dog1, matched: false},
@@ -23,15 +22,17 @@ const cardImages = [
   {"src": dog6, matched: false},
 ] 
 
-function App() {
+Modal.setAppElement('#root');
 
+function App() {
     // state to store cards in, track turns, track user card choices
     const [cards, setCards] = useState([]);
     const [turns, setTurns] = useState(0);
     const [points, setPoints] = useState(0);
     const [choiceOne, setChoiceOne] = useState(null);
     const [choiceTwo, setChoiceTwo] = useState(null);
-    const [disabled, setDisabled] = useState(false);
+    const [disabled, setDisabled] = useState(false); // disable card flipping momentarily while two choices have been made
+    const [modalIsOpen, setModalIsOpen] = useState(false);
     
     // shuffle cards function
     const shuffleCards = () => {
@@ -42,10 +43,9 @@ function App() {
 
         setChoiceOne(null);
         setChoiceTwo(null);
-        setCards(shuffledCards); // this sets the shuffled cards in state
-        setTurns(0); // this sets the turn count to 0
+        setCards(shuffledCards);
+        setTurns(0);
         setPoints(0);
-
     }
 
     // handle user choices
@@ -88,16 +88,21 @@ function App() {
     }, [])
 
     return (
-        <main className='App'>
-            <Header turns={turns} points={points} shuffleCards={shuffleCards} />
-            <Cards
-              cards={cards}
-              handleChoice={handleChoice}
-              choiceOne={choiceOne}
-              choiceTwo={choiceTwo}
-              disabled={disabled}
-            />
-        </main>
+        <>
+          <main className='App'>
+              <Header turns={turns} points={points} shuffleCards={shuffleCards} />
+              <Cards
+                cards={cards}
+                handleChoice={handleChoice}
+                choiceOne={choiceOne}
+                choiceTwo={choiceTwo}
+                disabled={disabled}
+              />
+          </main>
+          <Modal>
+            
+          </Modal>
+        </>
     );
 }
 
