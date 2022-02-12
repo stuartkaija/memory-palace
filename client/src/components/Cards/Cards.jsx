@@ -1,19 +1,18 @@
 import React from 'react';
 import './Cards.scss';
-import cardBack from '../../assets/images/card-back.jpeg';
 import SingleCard from '../SingleCard/SingleCard';
 
-export default function Cards(cards) {
-
-    console.log(cards);
+export default function Cards({ cards, handleChoice, choiceOne, choiceTwo, disabled }) {
     return (
         <div className='cards'>
-            {cards.cards.map((card) => {
+            {cards.map((card) => {
                 return (
                     <SingleCard 
                         key={card.id}
-                        cardFront={card.src}
-                        cardBack={cardBack}
+                        card={card}
+                        handleChoice={handleChoice}
+                        flipped={card === choiceOne || card === choiceTwo || card.matched}
+                        disabled={disabled}
                     />
                 )
             })}
