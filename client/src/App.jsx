@@ -44,6 +44,7 @@ function App() {
         setChoiceTwo(null);
         setCards(shuffledCards); // this sets the shuffled cards in state
         setTurns(0); // this sets the turn count to 0
+        setPoints(0);
 
     }
 
@@ -56,17 +57,11 @@ function App() {
     useEffect(() => {
       if (choiceOne && choiceTwo) {
         setDisabled(true);
-
         if (choiceOne.src === choiceTwo.src) {
+          setPoints(points + 1);
           setCards(prevCards => {
             return prevCards.map(card => {
               if (card.src === choiceOne.src) {
-
-                setPoints((prevPoints) => {
-                  console.log(prevPoints);
-                  
-                });
-
                 return {...card, matched: true}
               } else {
                 return card
