@@ -28,6 +28,7 @@ function App() {
     // state to store cards in, track turns, track user card choices
     const [cards, setCards] = useState([]);
     const [turns, setTurns] = useState(0);
+    const [points, setPoints] = useState(0);
     const [choiceOne, setChoiceOne] = useState(null);
     const [choiceTwo, setChoiceTwo] = useState(null);
     const [disabled, setDisabled] = useState(false);
@@ -60,6 +61,12 @@ function App() {
           setCards(prevCards => {
             return prevCards.map(card => {
               if (card.src === choiceOne.src) {
+
+                setPoints((prevPoints) => {
+                  console.log(prevPoints);
+                  
+                });
+
                 return {...card, matched: true}
               } else {
                 return card
@@ -80,14 +87,14 @@ function App() {
       setDisabled(false);
     }
 
-    // start new game immediately
+    // start new game when page loads
     useEffect(() => {
       shuffleCards()
     }, [])
 
     return (
         <main className='App'>
-            <Header turns={turns} shuffleCards={shuffleCards} />
+            <Header turns={turns} points={points} shuffleCards={shuffleCards} />
             <Cards
               cards={cards}
               handleChoice={handleChoice}

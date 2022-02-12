@@ -1,11 +1,17 @@
 @use '../../styles/partials/mixins' as *;
 
 .title {
-    font-size: 3rem;
+    font-size: 2rem;
+    transition: font-size 0.5s;
     padding: 0.5rem 0rem 0.4rem;
     text-align: center;
     border-bottom: 1px solid black;
     border-top: 1px solid black;
+
+    @include tablet {
+        font-size: 3rem;
+        transition: font-size 0.5s;
+    }
 }
 
 .game-details {
