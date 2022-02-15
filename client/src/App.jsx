@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import './App.scss';
 import uniqid from 'uniqid';
 import Modal from 'react-modal';
+import NewGameModal from './components/NewGameModal/NewGameModal';
 import Header from './components/Header/Header';
 import Cards from './components/Cards/Cards';
 
@@ -99,8 +100,10 @@ function App() {
                 disabled={disabled}
               />
           </main>
-          <Modal>
-            
+          <Modal
+            isOpen={true}
+          >
+            <NewGameModal />
           </Modal>
         </>
     );

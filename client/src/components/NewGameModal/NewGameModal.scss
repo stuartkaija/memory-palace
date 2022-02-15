@@ -1,0 +1,46 @@
+@use "../../styles/partials/mixins" as *;
+
+.new-game {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    height: 80%;
+
+    &__title {
+        font-weight: lighter;
+    }
+
+    // &__container {
+    //     width: 80%;
+    //     display: flex;
+    //     justify-content: space-between;
+    // }
+
+    &__label {
+        padding: 0rem 1rem;
+    }
+
+    &__input {
+        @include input;
+    }
+
+    &__select {
+        font-family: 'Magilio';
+        font-size: 1rem;
+        padding: 0.5rem 2rem;
+        border-radius: 5rem;
+        border: 1px solid black;
+        background-color: #fff;
+        outline: none;
+    }
+
+    &__option {
+        font-family: 'Magilio';
+    }
+
+    &__button {
+        @include button;
+        padding: 0.5rem 2rem;
+    }
+}
