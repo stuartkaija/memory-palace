@@ -1,7 +1,7 @@
 import React from 'react';
 import './NewGameModal.scss';
 
-export default function NewGameModal() {
+export default function NewGameModal({ shuffleCards }) {
   return (
     <form className='new-game'>
         <h2 className='new-game__title'>New Game</h2>
@@ -17,7 +17,7 @@ export default function NewGameModal() {
                 <option className='new-game__option' value="">Challenging</option>
             </select>
         </div>
-        <button className='new-game__button'>Begin</button>
+        <button className='new-game__button' onClick={shuffleCards}>Begin</button>
     </form>
   )
 }

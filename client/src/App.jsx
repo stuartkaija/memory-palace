@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import './App.scss';
+import axios from 'axios';
 import uniqid from 'uniqid';
 import Modal from 'react-modal';
 import NewGameModal from './components/NewGameModal/NewGameModal';
@@ -34,9 +35,13 @@ function App() {
     const [choiceTwo, setChoiceTwo] = useState(null);
     const [disabled, setDisabled] = useState(false); // disable card flipping momentarily while two choices have been made
     const [modalIsOpen, setModalIsOpen] = useState(false);
+
+    // user selected dogs
+    const [dogs, setDogs] = useState([])
     
-    // shuffle cards function
+    // start new game function
     const shuffleCards = () => {
+      // DO I NEED TO PREVENT DEFAULT PAGE RELOAD HERE?
       const shuffledCards = [...cardImages, ...cardImages]
       // shuffle cards with sort method
         .sort(() => Math.random() - 0.5)
@@ -87,6 +92,15 @@ function App() {
     useEffect(() => {
       shuffleCards()
     }, [])
+
+    // axios call to backend for dog pictures
+    useEffect(() => {
+      axios
+        .get("https://dog.ceo/api/breed/hound/images")
+        .then(response => setDogs(response.data))
+    }, []);
+
+    console.log(dogs);
 
     return (
         <>
