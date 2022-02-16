@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import './App.scss';
 import uniqid from 'uniqid';
 import Modal from 'react-modal';
+import NewGameModal from './components/NewGameModal/NewGameModal';
 import Header from './components/Header/Header';
 import Cards from './components/Cards/Cards';
 
@@ -90,7 +91,7 @@ function App() {
     return (
         <>
           <main className='App'>
-              <Header turns={turns} points={points} shuffleCards={shuffleCards} />
+              <Header turns={turns} points={points} setModalIsOpen={setModalIsOpen} />
               <Cards
                 cards={cards}
                 handleChoice={handleChoice}
@@ -99,8 +100,18 @@ function App() {
                 disabled={disabled}
               />
           </main>
-          <Modal>
-            
+          <Modal
+            base={'base'}
+            afterOpen={'afterOpen'}
+            beforeClose={'beforeClose'}
+            // overlayClassName="modal__overlay"
+            closeTimeoutMS={500}
+            isOpen={modalIsOpen}
+            onRequestClose={() => {setModalIsOpen(false)}}
+          >
+            <NewGameModal
+              shuffleCards={shuffleCards}
+            />
           </Modal>
         </>
     );
