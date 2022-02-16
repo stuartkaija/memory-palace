@@ -91,7 +91,7 @@ function App() {
     return (
         <>
           <main className='App'>
-              <Header turns={turns} points={points} shuffleCards={shuffleCards} />
+              <Header turns={turns} points={points} setModalIsOpen={setModalIsOpen} />
               <Cards
                 cards={cards}
                 handleChoice={handleChoice}
@@ -101,9 +101,17 @@ function App() {
               />
           </main>
           <Modal
-            isOpen={true}
+            base={'base'}
+            afterOpen={'afterOpen'}
+            beforeClose={'beforeClose'}
+            // overlayClassName="modal__overlay"
+            closeTimeoutMS={500}
+            isOpen={modalIsOpen}
+            onRequestClose={() => {setModalIsOpen(false)}}
           >
-            <NewGameModal />
+            <NewGameModal
+              shuffleCards={shuffleCards}
+            />
           </Modal>
         </>
     );
