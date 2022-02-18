@@ -2,19 +2,21 @@ import React, { useEffect } from 'react';
 import axios from 'axios';
 import './NewGameModal.scss';
 
-export default function NewGameModal({ setBreed, setDifficulty }) {
+export default function NewGameModal({ setBreed, setDifficulty, newGame }) {
 
-    const newGame = (event) => {
+    const startNewGame = (event) => {
         event.preventDefault()
         setBreed(event.target.breed.value);
         setDifficulty(event.target.difficulty.value);
+
+        newGame();
 
         // use shuffle cards/new game function HERE to actually start new game I think
         // close Modal at this point? maybe in a timer function so it's not abrupt
     }
 
     return (
-        <form className='new-game' id='newGame' onSubmit={newGame}>
+        <form className='new-game' id='newGame' onSubmit={startNewGame}>
             <h2 className='new-game__title'>New Game</h2>
             <div className='new-game__container'>
                 <label className='new-game__label' htmlFor="breed">Dog Breed</label>

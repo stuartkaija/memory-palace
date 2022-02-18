@@ -29,6 +29,7 @@ Modal.setAppElement('#root');
 function App() {
     // state to store cards in, track turns, track user card choices
     const [defaultCards, setDefaultCards] = useState([]);
+    const [cards, setCards] = useState([]);
     const [turns, setTurns] = useState(0);
     const [points, setPoints] = useState(0);
     const [choiceOne, setChoiceOne] = useState(null);
@@ -39,7 +40,6 @@ function App() {
     // game set up details
     const [breed, setBreed] = useState(null);
     const [difficulty, setDifficulty] = useState(null);
-    // dog array from axios call
     const [dogs, setDogs] = useState(null);
 
     // NEW GAME
@@ -83,16 +83,34 @@ function App() {
           .then((response) => {
             // create array of random dog objects
             const challengingDogs = response.data.message.map((dog) => ({
-              "src": dog, matched: false, "id": uniqid()
+              "src": dog, matched: false
             }));
 
             setDogs(challengingDogs);
 
           });
       };
+
+      if (dogs) {
+        shuffleCards();
+      }
+
     };
 
     console.log(dogs)
+
+    const shuffleCards = () => {
+      const shuffledCards = [...dogs, ...dogs]
+        .sort(() => Math.random() - 0.5)
+        .map((card) => ( {...card, id: uniqid() }))
+
+      setChoiceOne(null);
+      setChoiceTwo(null);
+      setCards(shuffledCards);
+      setTurns(0);
+      setPoints(0);
+      setModalIsOpen(false);
+    }
 
     // shuffle cards/new game
     const shuffleDefaultCards = () => {
@@ -160,7 +178,7 @@ function App() {
           <main className='App'>
               <Header turns={turns} points={points} setModalIsOpen={setModalIsOpen} />
               <Cards
-                cards={defaultCards}
+                cards={cards}
                 handleChoice={handleChoice}
                 choiceOne={choiceOne}
                 choiceTwo={choiceTwo}
@@ -175,6 +193,7 @@ function App() {
             <NewGameModal
               setBreed={setBreed}
               setDifficulty={setDifficulty}
+              newGame={newGame}
             />
           </Modal>
         </>
