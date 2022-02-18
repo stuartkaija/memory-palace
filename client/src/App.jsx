@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import './App.scss';
+import axios from 'axios';
 import uniqid from 'uniqid';
 import Modal from 'react-modal';
 import NewGameModal from './components/NewGameModal/NewGameModal';
@@ -14,19 +15,20 @@ import dog4 from '../src/assets/images/dog4.jpeg';
 import dog5 from '../src/assets/images/dog5.jpeg';
 import dog6 from '../src/assets/images/dog6.jpeg';
 
-const cardImages = [
+const defaultCardImages = [
   {"src": dog1, matched: false},
   {"src": dog2, matched: false},
   {"src": dog3, matched: false},
   {"src": dog4, matched: false},
   {"src": dog5, matched: false},
   {"src": dog6, matched: false},
-] 
+]
 
 Modal.setAppElement('#root');
 
 function App() {
     // state to store cards in, track turns, track user card choices
+    // const [defaultCards, setDefaultCards] = useState([]);
     const [cards, setCards] = useState([]);
     const [turns, setTurns] = useState(0);
     const [points, setPoints] = useState(0);
@@ -34,22 +36,86 @@ function App() {
     const [choiceTwo, setChoiceTwo] = useState(null);
     const [disabled, setDisabled] = useState(false); // disable card flipping momentarily while two choices have been made
     const [modalIsOpen, setModalIsOpen] = useState(false);
-    
-    // shuffle cards function
-    const shuffleCards = () => {
-      const shuffledCards = [...cardImages, ...cardImages]
-      // shuffle cards with sort method
-        .sort(() => Math.random() - 0.5)
-        .map((card) => ({ ...card, id: uniqid() }))
 
-        setChoiceOne(null);
-        setChoiceTwo(null);
-        setCards(shuffledCards);
-        setTurns(0);
-        setPoints(0);
+    // game set up details
+    const [breed, setBreed] = useState(null);
+    const [difficulty, setDifficulty] = useState(null);
+    const [dogs, setDogs] = useState(null);
+
+    // NEW GAME
+    const newGame = () => {
+      if (!breed || !difficulty) {
+        // setDogs(defaultCardImages)
+        shuffleCards(defaultCardImages)
+        return
+      }
+
+      if (difficulty === "Easy") {
+        axios
+          .get("https://dog.ceo/api/breed/hound/images/random/4")
+          .then((response) => {
+            // create array of random dog objects
+            const easyDogs = response.data.message.map((dog) => ({
+              "src": dog, matched: false, "id": uniqid()
+            }))
+
+            setDogs(easyDogs);
+
+          });
+      };
+
+      if (difficulty === "Medium") {
+        axios
+          .get("https://dog.ceo/api/breed/hound/images/random/8")
+          .then((response) => {
+            // create array of random dog objects
+            const mediumDogs = response.data.message.map((dog) => ({
+              "src": dog, matched: false, "id": uniqid()
+            }));
+
+            setDogs(mediumDogs);
+
+          });
+      };
+
+      if (difficulty === "Challenging") {
+        axios
+          .get("https://dog.ceo/api/breed/hound/images/random/12")
+          .then((response) => {
+            // create array of random dog objects
+            const challengingDogs = response.data.message.map((dog) => ({
+              "src": dog, matched: false
+            }));
+
+            setDogs(challengingDogs);
+
+          });
+      };
+
+      if (dogs) {
+        shuffleCards(dogs);
+      }
+
+    };
+
+    console.log("this is the dogs state", dogs)
+    console.log("this is the cards state", cards)
+
+    // shuffle function
+    const shuffleCards = (array) => {
+      const shuffledCards = [...array, ...array]
+        .sort(() => Math.random() - 0.5)
+        .map((card) => ( {...card, id: uniqid() }))
+
+      setCards(shuffledCards);
+      setChoiceOne(null);
+      setChoiceTwo(null);
+      setTurns(0);
+      setPoints(0);
+      setModalIsOpen(false);
     }
 
-    // handle user choices
+    // handle user choices function
     const handleChoice = (card) => {
         choiceOne ? setChoiceTwo(card) : setChoiceOne(card);
     };
@@ -83,34 +149,34 @@ function App() {
       setDisabled(false);
     }
 
-    // start new game when page loads
     useEffect(() => {
-      shuffleCards()
-    }, [])
+      newGame();
+    }, [breed, difficulty]);
+
+    // console.log(breed);
+    // console.log(dogs);
 
     return (
         <>
           <main className='App'>
-              <Header turns={turns} points={points} setModalIsOpen={setModalIsOpen} />
-              <Cards
-                cards={cards}
-                handleChoice={handleChoice}
-                choiceOne={choiceOne}
-                choiceTwo={choiceTwo}
-                disabled={disabled}
-              />
+            <Header turns={turns} points={points} setModalIsOpen={setModalIsOpen} />
+            <Cards
+              cards={cards}
+              handleChoice={handleChoice}
+              choiceOne={choiceOne}
+              choiceTwo={choiceTwo}
+              disabled={disabled}
+            />
           </main>
           <Modal
-            base={'base'}
-            afterOpen={'afterOpen'}
-            beforeClose={'beforeClose'}
-            // overlayClassName="modal__overlay"
             closeTimeoutMS={500}
             isOpen={modalIsOpen}
             onRequestClose={() => {setModalIsOpen(false)}}
           >
             <NewGameModal
-              shuffleCards={shuffleCards}
+              setBreed={setBreed}
+              setDifficulty={setDifficulty}
+              newGame={newGame}
             />
           </Modal>
         </>

@@ -2,7 +2,6 @@ import React from 'react'
 import './Header.scss';
 
 export default function Header({ turns, points, setModalIsOpen, shuffleCards }) {
-  console.log(typeof setModalIsOpen)
   return (
       <>
         <h1 className='title'>Memory Palace</h1>
