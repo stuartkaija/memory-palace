@@ -28,7 +28,7 @@ Modal.setAppElement('#root');
 
 function App() {
     // state to store cards in, track turns, track user card choices
-    const [defaultCards, setDefaultCards] = useState([]);
+    // const [defaultCards, setDefaultCards] = useState([]);
     const [cards, setCards] = useState([]);
     const [turns, setTurns] = useState(0);
     const [points, setPoints] = useState(0);
@@ -44,10 +44,11 @@ function App() {
 
     // NEW GAME
     const newGame = () => {
-      // if (/** !breed || */!difficulty) { 
-      //   shuffleDefaultCards()
-      //   return
-      // }
+      if (!breed || !difficulty) {
+        // setDogs(defaultCardImages)
+        shuffleCards(defaultCardImages)
+        return
+      }
 
       if (difficulty === "Easy") {
         axios
@@ -92,41 +93,29 @@ function App() {
       };
 
       if (dogs) {
-        shuffleCards();
+        shuffleCards(dogs);
       }
 
     };
 
-    console.log(dogs)
+    console.log("this is the dogs state", dogs)
+    console.log("this is the cards state", cards)
 
-    const shuffleCards = () => {
-      const shuffledCards = [...dogs, ...dogs]
+    // shuffle function
+    const shuffleCards = (array) => {
+      const shuffledCards = [...array, ...array]
         .sort(() => Math.random() - 0.5)
         .map((card) => ( {...card, id: uniqid() }))
 
+      setCards(shuffledCards);
       setChoiceOne(null);
       setChoiceTwo(null);
-      setCards(shuffledCards);
       setTurns(0);
       setPoints(0);
       setModalIsOpen(false);
     }
 
-    // shuffle cards/new game
-    const shuffleDefaultCards = () => {
-      const shuffledCards = [...defaultCardImages, ...defaultCardImages]
-      // shuffle cards with sort method
-        .sort(() => Math.random() - 0.5)
-        .map((card) => ({ ...card, id: uniqid() }))
-
-        setChoiceOne(null);
-        setChoiceTwo(null);
-        setDefaultCards(shuffledCards);
-        setTurns(0);
-        setPoints(0);
-    }
-
-    // handle user choices
+    // handle user choices function
     const handleChoice = (card) => {
         choiceOne ? setChoiceTwo(card) : setChoiceOne(card);
     };
@@ -137,7 +126,7 @@ function App() {
         setDisabled(true);
         if (choiceOne.src === choiceTwo.src) {
           setPoints(prevPoints => prevPoints + 1)
-          setDefaultCards(prevCards => {
+          setCards(prevCards => {
             return prevCards.map(card => {
               if (card.src === choiceOne.src) {
                 return {...card, matched: true}
@@ -160,12 +149,6 @@ function App() {
       setDisabled(false);
     }
 
-    // start new game when page loads
-    useEffect(() => {
-      shuffleDefaultCards()
-    }, [])
-
-    // axios call to backend for dog pictures
     useEffect(() => {
       newGame();
     }, [breed, difficulty]);
@@ -176,14 +159,14 @@ function App() {
     return (
         <>
           <main className='App'>
-              <Header turns={turns} points={points} setModalIsOpen={setModalIsOpen} />
-              <Cards
-                cards={cards}
-                handleChoice={handleChoice}
-                choiceOne={choiceOne}
-                choiceTwo={choiceTwo}
-                disabled={disabled}
-              />
+            <Header turns={turns} points={points} setModalIsOpen={setModalIsOpen} />
+            <Cards
+              cards={cards}
+              handleChoice={handleChoice}
+              choiceOne={choiceOne}
+              choiceTwo={choiceTwo}
+              disabled={disabled}
+            />
           </main>
           <Modal
             closeTimeoutMS={500}

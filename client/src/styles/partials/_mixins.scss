@@ -35,8 +35,10 @@
 }
 
 @mixin input {
-    padding: 0.5rem 2rem;
+    padding: 0.5rem 2rem 0.3rem;
     border-radius: 5rem;
     border: 1px solid black;
     outline: none;
+    font-family: 'Magilio';
+    font-size: 1rem;
 }
