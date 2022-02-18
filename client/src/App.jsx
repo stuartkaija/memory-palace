@@ -15,20 +15,20 @@ import dog4 from '../src/assets/images/dog4.jpeg';
 import dog5 from '../src/assets/images/dog5.jpeg';
 import dog6 from '../src/assets/images/dog6.jpeg';
 
-const cardImages = [
+const defaultCardImages = [
   {"src": dog1, matched: false},
   {"src": dog2, matched: false},
   {"src": dog3, matched: false},
   {"src": dog4, matched: false},
   {"src": dog5, matched: false},
   {"src": dog6, matched: false},
-] 
+]
 
 Modal.setAppElement('#root');
 
 function App() {
     // state to store cards in, track turns, track user card choices
-    const [cards, setCards] = useState([]);
+    const [defaultCards, setDefaultCards] = useState([]);
     const [turns, setTurns] = useState(0);
     const [points, setPoints] = useState(0);
     const [choiceOne, setChoiceOne] = useState(null);
@@ -36,20 +36,74 @@ function App() {
     const [disabled, setDisabled] = useState(false); // disable card flipping momentarily while two choices have been made
     const [modalIsOpen, setModalIsOpen] = useState(false);
 
-    // user selected dogs
-    const [dogs, setDogs] = useState([])
-    
-    // start new game function
-    const shuffleCards = () => {
-      // DO I NEED TO PREVENT DEFAULT PAGE RELOAD HERE?
-      const shuffledCards = [...cardImages, ...cardImages]
+    // game set up details
+    const [breed, setBreed] = useState(null);
+    const [difficulty, setDifficulty] = useState(null);
+    // dog array from axios call
+    const [dogs, setDogs] = useState(null);
+
+    // NEW GAME
+    const newGame = () => {
+      // if (/** !breed || */!difficulty) { 
+      //   shuffleDefaultCards()
+      //   return
+      // }
+
+      if (difficulty === "Easy") {
+        axios
+          .get("https://dog.ceo/api/breed/hound/images/random/4")
+          .then((response) => {
+            // create array of random dog objects
+            const easyDogs = response.data.message.map((dog) => ({
+              "src": dog, matched: false, "id": uniqid()
+            }))
+
+            setDogs(easyDogs);
+
+          });
+      };
+
+      if (difficulty === "Medium") {
+        axios
+          .get("https://dog.ceo/api/breed/hound/images/random/8")
+          .then((response) => {
+            // create array of random dog objects
+            const mediumDogs = response.data.message.map((dog) => ({
+              "src": dog, matched: false, "id": uniqid()
+            }));
+
+            setDogs(mediumDogs);
+
+          });
+      };
+
+      if (difficulty === "Challenging") {
+        axios
+          .get("https://dog.ceo/api/breed/hound/images/random/12")
+          .then((response) => {
+            // create array of random dog objects
+            const challengingDogs = response.data.message.map((dog) => ({
+              "src": dog, matched: false, "id": uniqid()
+            }));
+
+            setDogs(challengingDogs);
+
+          });
+      };
+    };
+
+    console.log(dogs)
+
+    // shuffle cards/new game
+    const shuffleDefaultCards = () => {
+      const shuffledCards = [...defaultCardImages, ...defaultCardImages]
       // shuffle cards with sort method
         .sort(() => Math.random() - 0.5)
         .map((card) => ({ ...card, id: uniqid() }))
 
         setChoiceOne(null);
         setChoiceTwo(null);
-        setCards(shuffledCards);
+        setDefaultCards(shuffledCards);
         setTurns(0);
         setPoints(0);
     }
@@ -65,7 +119,7 @@ function App() {
         setDisabled(true);
         if (choiceOne.src === choiceTwo.src) {
           setPoints(prevPoints => prevPoints + 1)
-          setCards(prevCards => {
+          setDefaultCards(prevCards => {
             return prevCards.map(card => {
               if (card.src === choiceOne.src) {
                 return {...card, matched: true}
@@ -90,24 +144,23 @@ function App() {
 
     // start new game when page loads
     useEffect(() => {
-      shuffleCards()
+      shuffleDefaultCards()
     }, [])
 
     // axios call to backend for dog pictures
     useEffect(() => {
-      axios
-        .get("https://dog.ceo/api/breed/hound/images")
-        .then(response => setDogs(response.data))
-    }, []);
+      newGame();
+    }, [breed, difficulty]);
 
-    console.log(dogs);
+    // console.log(breed);
+    // console.log(dogs);
 
     return (
         <>
           <main className='App'>
               <Header turns={turns} points={points} setModalIsOpen={setModalIsOpen} />
               <Cards
-                cards={cards}
+                cards={defaultCards}
                 handleChoice={handleChoice}
                 choiceOne={choiceOne}
                 choiceTwo={choiceTwo}
@@ -115,16 +168,13 @@ function App() {
               />
           </main>
           <Modal
-            base={'base'}
-            afterOpen={'afterOpen'}
-            beforeClose={'beforeClose'}
-            // overlayClassName="modal__overlay"
             closeTimeoutMS={500}
             isOpen={modalIsOpen}
             onRequestClose={() => {setModalIsOpen(false)}}
           >
             <NewGameModal
-              shuffleCards={shuffleCards}
+              setBreed={setBreed}
+              setDifficulty={setDifficulty}
             />
           </Modal>
         </>
