@@ -50,48 +50,20 @@ function App() {
         return
       }
 
-      if (difficulty === "Easy") {
-        axios
-          .get("https://dog.ceo/api/breed/hound/images/random/4")
-          .then((response) => {
-            // create array of random dog objects
-            const easyDogs = response.data.message.map((dog) => ({
-              "src": dog, matched: false, "id": uniqid()
-            }))
+      axios
+        .get(`https://dog.ceo/api/breed/hound/images/random/${difficulty}`)
+        .then((response) => {
+          const doggies = response.data.message.map((dog) => ({
+            "src": dog, matched: false, "id": uniqid()
+          }));
 
-            setDogs(easyDogs);
+          setDogs(doggies)
 
-          });
-      };
+        });
 
-      if (difficulty === "Medium") {
-        axios
-          .get("https://dog.ceo/api/breed/hound/images/random/8")
-          .then((response) => {
-            // create array of random dog objects
-            const mediumDogs = response.data.message.map((dog) => ({
-              "src": dog, matched: false, "id": uniqid()
-            }));
-
-            setDogs(mediumDogs);
-
-          });
-      };
-
-      if (difficulty === "Challenging") {
-        axios
-          .get("https://dog.ceo/api/breed/hound/images/random/12")
-          .then((response) => {
-            // create array of random dog objects
-            const challengingDogs = response.data.message.map((dog) => ({
-              "src": dog, matched: false
-            }));
-
-            setDogs(challengingDogs);
-
-          });
-      };
-
+      // wondering if I may be able to put the code below in the section above after setDogs, OR 
+      // if I could even shuffleCards(doggies)...
+      
       if (dogs) {
         shuffleCards(dogs);
       }
