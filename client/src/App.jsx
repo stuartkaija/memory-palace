@@ -51,15 +51,21 @@ function App() {
       }
 
       axios
-        .get(`https://dog.ceo/api/breed/hound/images/random/${difficulty}`)
-        .then((response) => {
-          const doggies = response.data.message.map((dog) => ({
-            "src": dog, matched: false, "id": uniqid()
-          }));
+        .post("http://localhost:8080/dogs", {
+          breed: breed,
+          difficulty: difficulty 
+        })
 
-          setDogs(doggies)
+      // axios
+      //   .get(`https://dog.ceo/api/breed/foxterrier/images/random/${difficulty}`)
+      //   .then((response) => {
+      //     const doggies = response.data.message.map((dog) => ({
+      //       "src": dog, matched: false, "id": uniqid()
+      //     }));
 
-        });
+      //     setDogs(doggies)
+
+      //   });
 
       // wondering if I may be able to put the code below in the section above after setDogs, OR 
       // if I could even shuffleCards(doggies)...
