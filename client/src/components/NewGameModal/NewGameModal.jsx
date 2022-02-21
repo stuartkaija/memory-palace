@@ -7,7 +7,7 @@ export default function NewGameModal({ setBreed, setDifficulty, newGame }) {
     const startNewGame = (event) => {
         event.preventDefault()
         setBreed(event.target.breed.value);
-        setDifficulty(event.target.difficulty.value);
+        setDifficulty(parseInt(event.target.difficulty.value));
         newGame();
     }
 
@@ -21,9 +21,9 @@ export default function NewGameModal({ setBreed, setDifficulty, newGame }) {
             <div className='new-game__container'>
                 <label className='new-game__label' htmlFor="difficulty">Difficulty</label>
                 <select className='new-game__select' name="difficulty" id="difficulty">
-                    <option className='new-game__option' value="Easy">Easy</option>
-                    <option className='new-game__option' value="Medium">Medium</option>
-                    <option className='new-game__option' value="Challenging">Challenging</option>
+                    <option className='new-game__option' value="4">Easy</option>
+                    <option className='new-game__option' value="8">Medium</option>
+                    <option className='new-game__option' value="12">Challenging</option>
                 </select>
             </div>
             <button className='new-game__button' form='newGame'>Begin</button>
