@@ -53,8 +53,19 @@ function App() {
       axios
         .post("http://localhost:8080/dogs", {
           breed: breed,
-          difficulty: difficulty 
+          difficulty: difficulty
         })
+        .then((response) => {
+
+          const doggies = response.data.message.map((dog) => ({
+            "src": dog, matched: false, "id": uniqid()
+          }))
+
+          setDogs(doggies)
+        })
+        .catch((error) => {
+          console.log(error);
+        });
 
       // axios
       //   .get(`https://dog.ceo/api/breed/foxterrier/images/random/${difficulty}`)
@@ -76,8 +87,8 @@ function App() {
 
     };
 
-    console.log("this is the dogs state", dogs)
-    console.log("this is the cards state", cards)
+    // console.log("this is the dogs state", dogs)
+    // console.log("this is the cards state", cards)
 
     // shuffle function
     const shuffleCards = (array) => {
