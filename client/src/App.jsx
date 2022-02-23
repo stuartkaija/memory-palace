@@ -41,6 +41,7 @@ function App() {
     const [breed, setBreed] = useState(null);
     const [difficulty, setDifficulty] = useState(null);
     const [dogs, setDogs] = useState(null);
+    const [error, setError] = useState(null); // potential use for error state if dog input filled out incorrectly
 
     // NEW GAME
     const newGame = () => {
@@ -51,14 +52,20 @@ function App() {
       }
 
       axios
-        .get(`https://dog.ceo/api/breed/hound/images/random/${difficulty}`)
+        .post("http://localhost:8080/dogs", {
+          breed: breed,
+          difficulty: difficulty
+        })
         .then((response) => {
+
           const doggies = response.data.message.map((dog) => ({
             "src": dog, matched: false, "id": uniqid()
-          }));
+          }))
 
           setDogs(doggies)
-
+        })
+        .catch((error) => {
+          console.log(error + " :whoops!");
         });
 
       // wondering if I may be able to put the code below in the section above after setDogs, OR 
@@ -69,9 +76,6 @@ function App() {
       }
 
     };
-
-    console.log("this is the dogs state", dogs)
-    console.log("this is the cards state", cards)
 
     // shuffle function
     const shuffleCards = (array) => {
@@ -124,9 +128,6 @@ function App() {
     useEffect(() => {
       newGame();
     }, [breed, difficulty]);
-
-    // console.log(breed);
-    // console.log(dogs);
 
     return (
         <>
