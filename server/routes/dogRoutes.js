@@ -6,8 +6,6 @@ const uniqid = require('uniqid');
 router.post('/', (req, res) => {
 
     const { breed, difficulty } = req.body
-    console.log(breed);
-    console.log(difficulty);
 
     // somewhere in here, validation to ensure breed input by user is in dog api, and there are sufficient number of images to populate selected difficulty
 
@@ -15,10 +13,10 @@ router.post('/', (req, res) => {
         .get(`https://dog.ceo/api/breed/${breed}/images/random/${difficulty}`)
         .then((response) => {
             res.json(response.data)
-            console.log(response.data);
         })
         .catch((error) => {
             console.log('there was an error')
+            res.error(error);
         })
 });
 
