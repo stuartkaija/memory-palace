@@ -1,5 +1,7 @@
 @use "../../styles/partials/mixins" as *;
 
+// different styles dependent on difficulty selected
+
 .cards {
     display: grid;
     padding: 1rem 0rem;
@@ -8,12 +10,12 @@
     gap: 1rem;
     transition: gap 0.5s;
     justify-items: center;
-    height: 100vh;
+    max-height: 100vh;
 
-    @include tablet {
-        grid-template-columns: repeat(4, 1fr);
-        grid-template-rows: repeat(3, 12rem);
-        gap: 2rem;
-        transition: gap 0.5s;
-    }
+    // @include tablet {
+    //     grid-template-columns: repeat(4, 1fr);
+    //     grid-template-rows: repeat(3, 12rem);
+    //     gap: 2rem;
+    //     transition: gap 0.5s;
+    // }
 }

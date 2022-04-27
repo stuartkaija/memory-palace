@@ -1,15 +1,8 @@
 @use './styles/partials/mixins' as *;
 
 .App {
-    padding: 1rem;
-
-    @include tablet {
-        padding: 1rem 2rem;
-    }
-
-    @include desktop {
-        padding: 2rem 6rem;
-    }
+    padding: 2rem 6rem;
+    height: 100vh;
 }
 
 .ReactModal__Content {

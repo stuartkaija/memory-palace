@@ -1,18 +1,6 @@
 @use "./variables" as *;
 @use "./typography" as *;
 
-@mixin tablet {
-    @media screen and (min-width: $tablet-breakpoint) {
-        @content;
-    }
-}
-
-@mixin desktop {
-    @media screen and (min-width: $desktop-breakpoint) {
-        @content
-    }
-}
-
 @mixin button {
     padding: 0.5rem 1rem;
     border-radius: 5rem;
@@ -22,10 +10,10 @@
     font-weight: bold;
     transition: all ease 0.25s;
 
-    @include tablet {
-        padding: 0.5rem 3rem;
-        transition: all ease 0.25s;
-    }
+    // @include tablet {
+    //     padding: 0.5rem 3rem;
+    //     transition: all ease 0.25s;
+    // }
 
     &:hover {
         background-color: rgb(71, 71, 71);
