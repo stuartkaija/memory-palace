@@ -1,8 +1,8 @@
 @use './styles/partials/mixins' as *;
 
 .App {
-    padding: 2rem 6rem;
     height: 100vh;
+    padding: 0.5rem 4rem;
 }
 
 .ReactModal__Content {
